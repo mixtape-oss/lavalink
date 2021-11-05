@@ -49,7 +49,7 @@ class SocketServer(
   val contextMap = ConcurrentHashMap<String, SocketContext>()
 
   @Suppress("LeakingThis")
-  private val handlers = WebSocketHandlers(contextMap)
+  private val handlers = WebSocketHandlers()
   private val resumableSessions = mutableMapOf<String, SocketContext>()
   private val koe = Koe.koe(koeOptions)
 
@@ -181,6 +181,7 @@ class SocketServer(
   companion object {
     private val log = LoggerFactory.getLogger(SocketServer::class.java)
 
+    @JvmStatic
     fun sendPlayerUpdate(socketContext: SocketContext, player: Player) {
       val state = player.state
       val connected = socketContext.getMediaConnection(player).gatewayConnection?.isOpen == true
